@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import Accountpage from "./Accountpage.js";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";  
+import Cookies from "js-cookie";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
 
 function Accomodationpage() {
   const [accommodations, setAccommodations] = useState([]);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
     const fetchAccommodations = async () => {
@@ -33,12 +35,28 @@ function Accomodationpage() {
     };
 
     fetchAccommodations();
+
+    // Check if the screen is small
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    setIsSmallScreen(mediaQuery.matches);
+
+    const handleResize = (e) => {
+      setIsSmallScreen(e.matches);
+    };
+
+    mediaQuery.addListener(handleResize);
+
+    return () => {
+      mediaQuery.removeListener(handleResize);
+    };
   }, [accommodations]);
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:6050/places/delete/${id}`);
-      setAccommodations(accommodations.filter(accommodation => accommodation._id !== id));
+      setAccommodations(
+        accommodations.filter((accommodation) => accommodation._id !== id)
+      );
     } catch (error) {
       console.error("Error deleting accommodation:", error);
     }
@@ -47,7 +65,7 @@ function Accomodationpage() {
   const handleEdit = (id) => {
     window.location.href = `/account/places/edit/${id}`;
   };
-  
+
   return (
     <div>
       <Accountpage />
@@ -82,18 +100,33 @@ function Accomodationpage() {
                   </h3>
                   <p className="text-gray-600">{accommodation.address}</p>
                 </div>
-                <button
-                  onClick={() => handleDelete(accommodation._id)}
-                  className="absolute bottom-0 right-0 mb-2 mr-2 bg-purple-700 hover:bg-purple-900 text-white py-1 px-5 rounded"
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={() => handleEdit(accommodation._id)}
-                  className="absolute bottom-0 right-4 mb-2 mr-20 bg-purple-700 hover:bg-purple-900 text-white py-1 px-5 rounded"
-                >
-                  Edit
-                </button>
+                {isSmallScreen ? (
+                  <div className="flex flex-row bottom-0 ">
+                    <FaTrashAlt
+                      onClick={() => handleDelete(accommodation._id)}
+                      className="text-purple-700 bottom-0 right-0 mb-2 mr-2 hover:text-purple-900 cursor-pointer"
+                    />
+                    <FaEdit
+                      onClick={() => handleEdit(accommodation._id)}
+                      className="text-purple-700 bottom-0 right-0 mb-2 mr-0 hover:text-purple-900 cursor-pointer"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleDelete(accommodation._id)}
+                      className="absolute bottom-0 right-0 mb-2 mr-2 bg-purple-700 hover:bg-purple-900 text-white py-1 px-5 rounded"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => handleEdit(accommodation._id)}
+                      className="absolute bottom-0 right-4 mb-2 mr-20 bg-purple-700 hover:bg-purple-900 text-white py-1 px-5 rounded"
+                    >
+                      Edit
+                    </button>
+                  </>
+                )}
               </div>
             );
           })}

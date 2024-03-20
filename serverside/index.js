@@ -9,11 +9,12 @@ const PlaceModel = require('./models/Place.js');
 const ChatModel = require('./models/chatmodel.js');
 const messageModel = require('./models/messageModel.js');
 const Booking = require('./models/Booking.js');
+const { app, server } = require('./socket.js');
 
 
 require('dotenv').config();
 
-const app = express();
+
 
 app.use(express.json());
 app.use(cors({
@@ -442,6 +443,6 @@ const createMessage = async (req, res) => {
   
 
 
-app.listen(process.env.PORT, () => {
-  console.log('Server is listening on port 6050');
+server.listen(process.env.PORT, () => {
+  console.log(`Server is listening on port ${process.env.PORT}`);
 });

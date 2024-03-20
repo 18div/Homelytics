@@ -5,7 +5,7 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io = new Server(server, { cors: { origin: 'http://localhost:3000' } }); 
 
 const activeConnections = new Map();
 
@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+ `  `
 
   // Handle new messages
   socket.on('sendMessage', (message) => {
@@ -43,7 +43,4 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`Server is running on port 8050`);
-});
-
+module.exports = { app, server ,io};
