@@ -8,6 +8,7 @@ const placeSchema = new mongoose.Schema({
   room:String,
   lobby:String,
   description: String,
+  message:String,
   perks: {
     oven: Boolean,
     swimmingPool: Boolean,

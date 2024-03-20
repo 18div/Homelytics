@@ -143,15 +143,18 @@ function PlacePage() {
   return (
     <div className="container mx-auto px-2 py-8 relative">
       {url && (
+        <div className="w-full mb-8">
         <div className="relative mb-8">
           <img
             src={`http://localhost:6050/${url}`}
             alt={place.title}
-            className="w-full h-full sm:h-40 md:h-48 lg:h-56 xl:h-96 object-cover rounded-lg"
+            className="w-full h-auto object-cover rounded-lg mx-auto"
+            style={{ maxHeight: '80vh' }}
           />
           <div className="absolute left-0 right-0 bottom-0 p-1 bg-black bg-opacity-50 text-white">
             <h2 className="text-2xl font-bold mb-2">{place.title}</h2>
           </div>
+        </div>
         </div>
       )}
       

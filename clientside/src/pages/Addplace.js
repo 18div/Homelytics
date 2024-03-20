@@ -21,6 +21,7 @@ function Addplace() {
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
+  const [message, setMessage] = useState("");
   const [checkIn, setCheckIn] = useState(0);
   const [checkOut, setCheckOut] = useState(0);
   const [maxGuests, setMaxGuests] = useState(0);
@@ -45,6 +46,7 @@ function Addplace() {
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleAddressChange = (e) => setAddress(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
+  const handleMessageChange = (e) => setMessage(e.target.value);
   const handleCheckInChange = (e) => setCheckIn(parseInt(e.target.value));
   const handleCheckOutChange = (e) => setCheckOut(parseInt(e.target.value));
   const handleMaxGuestsChange = (e) => setMaxGuests(parseInt(e.target.value));
@@ -65,6 +67,7 @@ const handlePerkChange = (perk) => {
       formData.append("title", title);
       formData.append("address", address);
       formData.append("description", description);
+      formData.append("message", message);
       formData.append("checkIn", checkIn);
       formData.append("checkOut", checkOut);
       formData.append("maxGuests", maxGuests);
@@ -81,8 +84,9 @@ const handlePerkChange = (perk) => {
         },
       });
       if (response.status === 201) {
-        resetForm();
         alert("Place added successfully");
+        resetForm();
+        
       } else {
         alert("Failed to add place");
       }
@@ -97,10 +101,11 @@ const handlePerkChange = (perk) => {
     setAddress("");
     setFile("");
     setDescription("");
-    setCheckIn(0);
+    setCheckIn(0); 
     setCheckOut(0);
     setMaxGuests(0);
     setPrice(0);
+    setMessage("");
     setPerks({
       oven: false,
       swimmingPool: false,
@@ -148,6 +153,16 @@ const handlePerkChange = (perk) => {
               name="description"
               value={description}
               onChange={handleDescriptionChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            />
+          </label>
+          <label className="block">
+            <span className="text-gray-700">Message:</span>
+            <input
+              type="text"
+              name="description"
+              value={message}
+              onChange={handleMessageChange}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
             />
           </label>

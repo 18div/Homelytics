@@ -159,7 +159,7 @@ app.get("/api/user/:userId", async (req, res) => {
 app.post('/places', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'roomPhotos', maxCount: 1 }, { name: 'lobbyPhotos', maxCount: 1 }]), async (req, res) => {
   try {
  
-    const { owner, title, address, description, checkIn, checkOut, maxGuests, price } = req.body;
+    const { owner, title, address, description,message, checkIn, checkOut, maxGuests, price } = req.body;
     const { oven, swimmingPool, indianToilet, securityCamera, food, refrigerator, laundry, wifi, parking, tv, bed } = req.body.perks;
 
     const newPlace = new PlaceModel({
@@ -170,6 +170,7 @@ app.post('/places', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'room
       room: req.files['roomPhotos'][0].path,
       lobby: req.files['lobbyPhotos'][0].path,
       description,
+      message,
       perks: {
         oven: !!oven, 
         swimmingPool: !!swimmingPool,

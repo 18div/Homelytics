@@ -205,18 +205,38 @@ const Chat = () => {
       <div className="flex justify-center w-full py-4">
         <button
           className="bg-purple-700 text-white px-4 py-2 rounded-md mr-2"
-          onClick={() => setShowAddFriend(true)} // Show Add friend section
+          onClick={() => setShowAddFriend(false)} // Show Add friend section
         >
           Add Friend
         </button>
         <button
           className="bg-purple-700 text-white px-4 py-2 rounded-md"
-          onClick={() => setShowAddFriend(false)} // Show Chat section
+          onClick={() => setShowAddFriend(true)} // Show Chat section
         >
           Chat
         </button>
       </div>
-      {!showAddFriend ? (
+      {showAddFriend ? (
+        <div className="bg-white justify-center rounded-lg p-6 w-full md:w-96 h-64 md:h-auto overflow-y-auto border-4 border-purple-700 mb-4 md:mb-0 justify-center items-center">
+          <div className="flex flex-col items-center">
+            {chatsWithReceiverNames.length === 0 ? (
+              <p>No chats available</p>
+            ) : (
+              <div className="w-full">
+                {chatsWithReceiverNames.map((chat) => (
+                  <button
+                    key={chat._id}
+                    className="bg-purple-700 text-white px-4 py-2 rounded-md mb-2 block w-full text-left"
+                    onClick={() => handleChatPress(chat._id, chat.members[0], chat.members[1])}
+                  >
+                    Chat with {chat.receiverName}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      ) :(
         <div className="bg-white justify-center rounded-lg p-6 w-full md:w-96 h-64 md:h-auto overflow-y-auto border-4 border-purple-700 mb-4 md:mb-0 justify-center items-center">
           <h2 className="text-purple-700 text-2xl font-semibold mb-4 ">
             Add Friend
@@ -242,27 +262,7 @@ const Chat = () => {
             ))}
           </ul>
         </div>
-      ) : (
-        <div className="bg-white justify-center rounded-lg p-6 w-full md:w-96 h-64 md:h-auto overflow-y-auto border-4 border-purple-700 mb-4 md:mb-0 justify-center items-center">
-          <div className="flex flex-col items-center">
-            {chatsWithReceiverNames.length === 0 ? (
-              <p>No chats available</p>
-            ) : (
-              <div className="w-full">
-                {chatsWithReceiverNames.map((chat) => (
-                  <button
-                    key={chat._id}
-                    className="bg-purple-700 text-white px-4 py-2 rounded-md mb-2 block w-full text-left"
-                    onClick={() => handleChatPress(chat._id, chat.members[0], chat.members[1])}
-                  >
-                    Chat with {chat.receiverName}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      ) }
     </div>
   );
   
