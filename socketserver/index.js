@@ -9,6 +9,11 @@ const io = new Server(server, { cors: { origin: '*' } });
 
 const activeConnections = new Map();
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 

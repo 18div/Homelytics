@@ -58,6 +58,9 @@ const createToken = (userId) => {
     storage: storage
   });
 
+  app.get('/', (req, res) => {
+    res.send('Hello World! server here');
+  });
 
   app.get("/user", (req, res) => {
     const token = req.headers.authorization;
